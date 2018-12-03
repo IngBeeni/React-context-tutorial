@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+//import { SampleConsumer } from '../contexts/sample';
+import { useSample } from '../contexts/sample';
 
 class Sends extends Component {
   state = {
     input: ''
   };
+
+  componentDidMount() {
+    this.setState({
+      input: this.props.value
+    });
+  }
 
   handleChange = e => {
     this.setState({ input: e.target.value });
@@ -11,7 +19,8 @@ class Sends extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // 구현 예정
+    // :: props로 받은 setValue 호출
+    this.props.setValue(this.state.input);
   };
 
   render() {
@@ -24,4 +33,15 @@ class Sends extends Component {
   }
 }
 
-export default Sends;
+// :: Consumer 를 사용하여 context 값을 전달해준 컨테이너 컴포넌트
+// const SendsContainer = () => (
+//   <SampleConsumer>
+//     {({ state, actions }) => (
+//       <Sends value={state.value} setValue={actions.setValue} />
+//     )}
+//   </SampleConsumer>
+// );
+
+// :: Sends 대신에 SendsContainer 를 내보내줌
+
+export default useSample(Sends);
